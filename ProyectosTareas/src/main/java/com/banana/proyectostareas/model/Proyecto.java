@@ -45,9 +45,9 @@ public class Proyecto {
     //@Transient
     /* Si descomentamos @JsonIgnore, se embucla cuando ejecutamos getProyectos, por ejemplo. HTTP 500 */
     @JsonIgnore // Ignora campo/excluye propiedad en JSON de las peticiones RESTer
-    //@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "miProyecto")
+    //@OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy = "miProyecto")
     // Cuando un Proyecto se carga, ¿buscamos las Tareas? Si es así, es una carga Eager, si no, es una carga Lazy (diferida).
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "miProyecto")
+    @OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "miProyecto")
     @ToString.Exclude   //Evitar bucles infinitos
     @Schema(name = "Proyecto tareas", type = "List<Tarea>", required = false)
     private List<Tarea> tareas = new ArrayList<>();

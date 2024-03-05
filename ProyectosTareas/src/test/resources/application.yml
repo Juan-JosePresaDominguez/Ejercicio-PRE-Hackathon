@@ -24,7 +24,8 @@ products.openapi:
 
 ---
 spring:
-  sql.init.mode: never  # avoid loading
+  #sql.init.mode: never  # avoid loading
+  sql.init.mode: always  # avoid loading
   config.activate.on-profile: testing
   devtools.restart.enabled: true
   application:

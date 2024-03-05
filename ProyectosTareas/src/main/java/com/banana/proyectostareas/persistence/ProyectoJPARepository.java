@@ -3,11 +3,12 @@ package com.banana.proyectostareas.persistence;
 import com.banana.proyectostareas.exception.ProyectoNotFoundException;
 import com.banana.proyectostareas.model.Proyecto;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
@@ -23,6 +24,7 @@ public class ProyectoJPARepository implements IProyectoJPARepository {
     }
 
     @Override
+    @Transactional
     public Proyecto findById(Long id) throws RuntimeException {
 //        Query query = em.createQuery("SELECT p FROM Proyecto p WHERE p.id = id");
 //        return (Proyecto) query.getSingleResult();
@@ -39,7 +41,7 @@ public class ProyectoJPARepository implements IProyectoJPARepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public Proyecto save(Proyecto unProyecto) throws RuntimeException {
         em.persist(unProyecto);
         return unProyecto;

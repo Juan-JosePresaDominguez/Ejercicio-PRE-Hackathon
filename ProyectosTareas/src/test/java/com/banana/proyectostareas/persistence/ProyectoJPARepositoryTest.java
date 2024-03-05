@@ -19,11 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 // NOTAS
-// Dado que estamos usando SpringBoot, la configuración definida en SpringConfig.class no es necesaria y además puede generar confusión, ya que SpringBootApplication ya lo hace.
+// Dado que estamos usando SpringBoot, la configuración definida en SpringConfig.class no es necesaria y además puede generar confusión, ya que es SpringBootApplication el que lo hace.
 // @DataJpaTest ya hace las veces de preconfigurar la app y cargar propiedades, pero solo carga los componentes de persistencia.
 // En este caso estamos probando el repositorio, con lo cual, para hacer comprobaciones, cuando haga falta acceder a BB.DD. es recomendable usar un Entity Manager.
 /* ANOTACIONES:
-   · @ExtendWith(SpringExtension.class) - Conectar el contexto de Spring con el contexto de JUnit
+   · @ExtendWith(SpringExtension.class) - Conectar el contexto de Spring Boot con el contexto de JUnit
    · @DataJpaTest() - Carga solo los componentes de persistencia (los marcados con @Repository)
    · @ComponentScan(basePackages = {"com.banana.proyectostareas.persistence"}) - Escanear un paquete
    · @AutoConfigureTestEntityManager - Genera un EntityManger para realizar nuestras pruebas
@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataJpaTest()
 @ComponentScan(basePackages = {"com.banana.proyectostareas.persistence"})
 @AutoConfigureTestEntityManager
+//@SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProyectoJPARepositoryTest {
 
@@ -46,7 +47,7 @@ class ProyectoJPARepositoryTest {
     private ProyectoJPARepository jpaRepo;
 
     @Autowired
-    private ProyectoJPARepository jpaRepoData;
+    private ProyectoJPARepositoryData jpaRepoData;
 
     @BeforeAll
     static void setupAll() {
@@ -56,22 +57,16 @@ class ProyectoJPARepositoryTest {
     @BeforeEach
     void setup() {
         // setup each test
-        Proyecto unProyecto1 = new Proyecto(null, "Proyecto 1", LocalDate.now(), null);
-        entityManager.persist(unProyecto1);
-        Proyecto unProyecto2 = new Proyecto(null, "Proyecto 2", LocalDate.now(), null);
-        entityManager.persist(unProyecto2);
-        List<Proyecto> proyectos = List.of(
-                new Proyecto(null, "Proyecto 3", LocalDate.now(), null),
-                new Proyecto(null, "Proyecto 4", LocalDate.now(), null),
-                new Proyecto(null, "Proyecto 5", LocalDate.now(), null)
-        );
-        entityManager.persist(proyectos);
     }
 
     @Test
     @Order(1)
     void findAll() {
         //Dado (Given)
+        Proyecto unProyecto1 = new Proyecto(null, "Proyecto 1", LocalDate.now(), null);
+        entityManager.persist(unProyecto1);
+        Proyecto unProyecto2 = new Proyecto(null, "Proyecto 2", LocalDate.now(), null);
+        entityManager.persist(unProyecto2);
         entityManager.flush();
         //Cuando (When)
         List<Proyecto> proyectos = jpaRepo.findAll();
@@ -93,8 +88,17 @@ class ProyectoJPARepositoryTest {
     @Order(3)
     void findByNombreContaining() {
         //Dado (Given)
+        Proyecto unProyecto1 = new Proyecto(null, "Proyecto 1 Nuevo", LocalDate.now(), null);
+        entityManager.persist(unProyecto1);
+        Proyecto unProyecto2 = new Proyecto(null, "Proyecto 2 Nuevo", LocalDate.now(), null);
+        entityManager.persist(unProyecto2);
+        entityManager.flush();
         //Cuando (When)
+        List<Proyecto> proyectos = jpaRepoData.findByNombreContaining("Nuevo");
+        logger.info("Proyectos: " + proyectos + "(size = " + proyectos.size() + ")");
         //Entonces (Then)
+        assertThat(proyectos.size()).isGreaterThan(0);
+        assertNotNull(proyectos);
     }
 
     @Test
