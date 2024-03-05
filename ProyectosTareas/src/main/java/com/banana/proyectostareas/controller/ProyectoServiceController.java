@@ -77,6 +77,7 @@ public class ProyectoServiceController {
     @PutMapping("/{id}")
     public ResponseEntity<Proyecto> addTareaAProyecto(
             @PathVariable @Min(1) Long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "Task data")
             @RequestBody Tarea newTarea // Define el tipo de contenido del cuerpo de la solicitud.
     ) throws ProyectoNotFoundException {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(proyectoService.anadeTareaAProyecto(id, newTarea)); // HTTP 202

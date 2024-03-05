@@ -17,6 +17,7 @@ import java.util.List;
 import static java.lang.Boolean.FALSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+// >>> No se suele realizar este test, porque es redundante respecto al test web MVC.
 @SpringBootTest
 @Sql(value = "classpath:testing.sql")
 //@Sql(value = "classpath:testing_clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -42,7 +43,7 @@ class ProyectoServiceControllerTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void givenProyectos_whenInVaildCreateProyecto_thenException() {
         //Dado (Given)
         Proyecto newProyecto = new Proyecto(null, "Px", LocalDate.now(), null);
@@ -55,6 +56,7 @@ class ProyectoServiceControllerTest {
 
     @Test
     @Transactional
+    @Order(2)
     void addTareaAProyecto() {
         //Dado (Given)
         Tarea unaTarea = new Tarea(2L, "Tarea Proyecto 1", LocalDate.now(), 1, FALSE, null);
@@ -66,7 +68,7 @@ class ProyectoServiceControllerTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     void getProyectos() {
         //Dado (Given)
         ResponseEntity<List<Proyecto>> response = controllerProyecto.getProyectos();

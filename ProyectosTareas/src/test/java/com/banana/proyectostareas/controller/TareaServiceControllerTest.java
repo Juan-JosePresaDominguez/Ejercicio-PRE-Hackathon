@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+// >>> No se suele realizar este test, porque es redundante respecto al test web MVC.
 @SpringBootTest
 //@Sql(value = "classpath:testing.sql")
 //@Sql(value = "classpath:testing_clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
