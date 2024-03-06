@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.*;
@@ -35,6 +36,7 @@ class ProyectoServiceControllerTest_MockMvc {
     @Order(1)
     public void givenProyectos_whenGetProyectos_thenStatus200() throws Exception {
         Proyecto nuevoProyecto = new Proyecto(null, "Nuevo proyecto", LocalDate.now(), null);
+        //Proyecto nuevoProyecto = new Proyecto(null, "Nuevo proyecto", "2024-01-01", null);
         repository.save(nuevoProyecto);
 
         // Petición GET al endpoint /proyectos
@@ -44,12 +46,14 @@ class ProyectoServiceControllerTest_MockMvc {
                 // .andExpect(jsonPath("$[5].name", is("Nuevo proyecto")));
                 .andExpect(jsonPath("$[*].nombre", hasItem("Nuevo proyecto")));
                 // En lenguaje jsonPatch $ es el objeto que he recibido. Para cualquiera de los elementos del array que he recibido, traigo el nombre de cualquiera de esos elementos y verifico que alguno de ellos tenga el texto "Nuevo proyecto".
+                // $[1] - Sería el nombre del primer elemento.
     }
 
     @Test
     @Order(2)
     void givenProyectos_whenValidCreateProyecto_thenIsCreatedAndHaveId() throws Exception {
         Proyecto newProyecto = new Proyecto(null, "Proyecto 2", LocalDate.now(), null);
+        //Proyecto newProyecto = new Proyecto(null, "Proyecto 2", "2024-01-01", null);
         // Proyecto newProyecto = repository.findById(2L);
         // Si ponemos un @JsonIgnore en fechaCreacion, da error de validación 412 - "fechaCreacion": "no debe ser nulo"
 
@@ -68,6 +72,7 @@ class ProyectoServiceControllerTest_MockMvc {
     @Order(3)
     void givenProyectos_whenInValidCreateProyecto_thenPreconditionFailed() throws Exception {
         Proyecto newProyecto = new Proyecto(null, "Px", LocalDate.now(), null);
+        //Proyecto newProyecto = new Proyecto(null, "Px", "2024-01-01", null);
         // Poner un @JsonIgnore en fechaCreacion, porque sino dará un error
 
         // En este test no hay excepción sino código de respuesta (exception handler 412 o si no, 500)

@@ -1,4 +1,4 @@
-package com.banana.proyectostareas.service;
+package com.banana.proyectostareas.services;
 
 import com.banana.proyectostareas.model.Proyecto;
 import com.banana.proyectostareas.model.Tarea;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*@ExtendWith(SpringExtension.class)
 @DataJpaTest()
-@ComponentScan(basePackages = {"com.banana.proyectostareas.service"})
+@ComponentScan(basePackages = {"com.banana.proyectostareas.services"})
 @AutoConfigureTestEntityManager*/
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

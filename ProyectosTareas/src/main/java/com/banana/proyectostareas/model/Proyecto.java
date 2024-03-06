@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+//import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,4 +53,28 @@ public class Proyecto {
     @ToString.Exclude   //Evitar bucles infinitos
     @Schema(name = "Proyecto tareas", type = "List<Tarea>", required = false)
     private List<Tarea> tareas = new ArrayList<>();
+
+    // NOTA:
+    // Si queremos pasar el campo fecha como un String en lugar de LocalDate, haríamos añadimos el siguiente código:
+    /*@Transient
+    @JsonIgnore
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public Proyecto(Long id, String nombre, String fechaCreacion, List<Tarea> tareas) {
+        this.setId(id);
+        this.setNombre(nombre);
+        this.setReleaseDateAsString(fechaCreacion);
+        this.setTareas(tareas);
+    }
+
+    public Proyecto(Long id, String nombre, LocalDate fechaCreacion, List<Tarea> tareas) {
+        this.setId(id);
+        this.setNombre(nombre);
+        this.setFechaCreacion(fechaCreacion);
+        this.setTareas(tareas);
+    }
+
+    public void setReleaseDateAsString(String releaseDateString) {
+        fechaCreacion = LocalDate.parse(releaseDateString, formatter);
+    }*/
 }

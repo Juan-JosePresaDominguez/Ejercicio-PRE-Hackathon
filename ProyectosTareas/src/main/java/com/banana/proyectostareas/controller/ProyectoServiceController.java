@@ -3,7 +3,7 @@ package com.banana.proyectostareas.controller;
 import com.banana.proyectostareas.exception.ProyectoNotFoundException;
 import com.banana.proyectostareas.model.Proyecto;
 import com.banana.proyectostareas.model.Tarea;
-import com.banana.proyectostareas.service.ProyectoTareaService;
+import com.banana.proyectostareas.services.ProyectoTareaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -74,7 +74,7 @@ public class ProyectoServiceController {
             @ApiResponse(responseCode = "412", description = "Precondition Failed"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Proyecto> addTareaAProyecto(
             @PathVariable @Min(1) Long id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "Task data")
@@ -86,7 +86,7 @@ public class ProyectoServiceController {
     // Método GET (Obtener Proyecto 'getProyectos')
     // HISTORIA DE USUARIO 3
     // Como usuario anónimo quiero poder mostrar la lista de mis proyectos, para decidir cuál gestionar.
-    @GetMapping("")
+    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity getProyectos() {
         List<Proyecto> listaProyectos = proyectoService.obtenerProyectos();
         if (listaProyectos != null && listaProyectos.size() > 0) return ResponseEntity.status(HttpStatus.OK).body(listaProyectos);

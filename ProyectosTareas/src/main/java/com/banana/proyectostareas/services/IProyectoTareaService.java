@@ -1,4 +1,4 @@
-package com.banana.proyectostareas.service;
+package com.banana.proyectostareas.services;
 
 import com.banana.proyectostareas.exception.ProyectoNotFoundException;
 import com.banana.proyectostareas.exception.TareaNotFoundException;

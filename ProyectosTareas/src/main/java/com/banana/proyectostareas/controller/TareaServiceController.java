@@ -4,7 +4,7 @@ import com.banana.proyectostareas.exception.ProyectoNotFoundException;
 import com.banana.proyectostareas.exception.TareaNotFoundException;
 import com.banana.proyectostareas.model.Tarea;
 import com.banana.proyectostareas.persistence.ProyectoJPARepository;
-import com.banana.proyectostareas.service.ProyectoTareaService;
+import com.banana.proyectostareas.services.ProyectoTareaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -76,7 +76,7 @@ public class TareaServiceController {
     // Método GET (Obtener Tareas ORDENADAS 'getTareasProyecto' --> A través de Servicio)
     // HISTORIA DE USUARIO 4
     // Como usuario anónimo quiero ver la lista "ORDENADA" de tareas de un proyecto, para ejecutarlas en orden.
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Tarea>> getTareasProyectoOrdenadas(@PathVariable @Min(1) Long id) {
         List<Tarea> listaTareas = tareaService.obtenerTareasDelProyecto(id);
         return ResponseEntity.status(HttpStatus.OK).body(listaTareas);
@@ -86,7 +86,7 @@ public class TareaServiceController {
     // HISTORIA DE USUARIO 4
     // Como usuario anónimo quiero ver la lista "ORDENADA" de tareas de un proyecto, para ejecutarlas en orden.
     // Alternativa menos elegante. Mejor a través del Servicio.
-    @GetMapping("/alternativo/{id}")
+    @GetMapping(value = "/alternativo/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Tarea>> getTareasProyecto(@PathVariable @Min(1) Long id) {
         try {
             List<Tarea> listaTareas = proyectoRepository.findById(id).getTareas();
@@ -118,7 +118,7 @@ public class TareaServiceController {
             @ApiResponse(responseCode = "404", description = "Not Found - The task was not found"),
             @ApiResponse(responseCode = "412", description = "Precondition Failed")
     })
-    @PutMapping("/completada/{id}")
+    @PutMapping(value = "/completada/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tarea> marcarTareaCompletada(
             @PathVariable @Min(1) Long id
     ) throws TareaNotFoundException {

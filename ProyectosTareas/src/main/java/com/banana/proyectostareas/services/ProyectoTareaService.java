@@ -1,10 +1,11 @@
-package com.banana.proyectostareas.service;
+package com.banana.proyectostareas.services;
 
 import com.banana.proyectostareas.exception.ProyectoNotFoundException;
 import com.banana.proyectostareas.exception.TareaNotFoundException;
 import com.banana.proyectostareas.model.Proyecto;
 import com.banana.proyectostareas.model.Tarea;
 import com.banana.proyectostareas.persistence.IProyectoJPARepository;
+import com.banana.proyectostareas.persistence.ProyectoJPARepositoryData;
 import com.banana.proyectostareas.persistence.TareaJPARepositoryData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,9 @@ public class ProyectoTareaService implements IProyectoTareaService {
 
     @Autowired
     private IProyectoJPARepository proyectoRepository;
+
+    @Autowired
+    private ProyectoJPARepositoryData proyectoRepositoryData;
 
     @Autowired
 //    private ITareaJPARepository tareaRepository;      // Repositorio JPA
@@ -104,5 +108,9 @@ public class ProyectoTareaService implements IProyectoTareaService {
         Tarea tareaCompletada = tareaRepository.findById(idTarea).orElseThrow(() -> new TareaNotFoundException(idTarea));
         tareaCompletada.setCompletada(TRUE);
         return tareaRepository.save(tareaCompletada);
+    }
+
+    public List<Proyecto> getProyectosByText(String text) {
+        return proyectoRepositoryData.findByNombreContaining(text);
     }
 }
